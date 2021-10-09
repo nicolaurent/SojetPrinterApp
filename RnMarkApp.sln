@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RnMarkApp", "RnMarkApp\RnMarkApp.csproj", "{C04A1C6D-9476-4266-9860-DC0CA7E85BBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C04A1C6D-9476-4266-9860-DC0CA7E85BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04A1C6D-9476-4266-9860-DC0CA7E85BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04A1C6D-9476-4266-9860-DC0CA7E85BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04A1C6D-9476-4266-9860-DC0CA7E85BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {763C88BF-82DF-46FF-94F4-EF3D576B9AC8}
+	EndGlobalSection
+EndGlobal
