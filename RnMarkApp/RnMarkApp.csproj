@@ -54,6 +54,7 @@
     <Compile Include="Communication\ClientPlc.cs" />
     <Compile Include="Communication\ClientPrinter.cs" />
     <Compile Include="Communication\ServerPlc.cs" />
+    <Compile Include="Model\SkuSymbolModel.cs" />
     <Compile Include="Util\SEngine64Dll.cs" />
     <Compile Include="Util\Checksum.cs" />
     <Compile Include="Data\MessageConverter.cs" />
@@ -75,6 +76,9 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Resource\Library\SkuSymbol.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resource\Library\SkuLibrary.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

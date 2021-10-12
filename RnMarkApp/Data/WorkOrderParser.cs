@@ -41,7 +41,6 @@ namespace RnMarkApp.Data
             {
                 throw new CustomException
                 {
-                    BoxId = currentWo.BoxId,
                     SkuName = currentWo.SkuName,
                     Side = currentWo.Side,
                     ErrorMessage = $"SetClearMessage response is not OK"
@@ -51,14 +50,13 @@ namespace RnMarkApp.Data
 
         private static void SetMessageSlot(WorkOrderModel currentWo)
         {
-            string messageSlot = SkuLib.GetMessageSlot(currentWo.SkuName, currentWo.Side);
+            string messageSlot = SkuLib.GetMessageSlot(currentWo.Side);
             bool isResponseOk = ClientPrinter.SendMessageSlot(messageSlot);
 
             if (!isResponseOk)
             {
                 throw new CustomException
                 {
-                    BoxId = currentWo.BoxId,
                     SkuName = currentWo.SkuName,
                     Side = currentWo.Side,
                     ErrorMessage = $"SetMessageSlot response is not OK"
@@ -69,7 +67,7 @@ namespace RnMarkApp.Data
 
         private static void SetDynamicText(WorkOrderModel currentWo)
         {
-            List<string> dynamicTextList = new List<string> { "", "", "", "", ""};
+            List<string> dynamicTextList = new List<string> { " ", " "};
 
             if (!String.IsNullOrEmpty(currentWo.Data1))
             {
@@ -79,18 +77,6 @@ namespace RnMarkApp.Data
             {
                 dynamicTextList[1] = currentWo.Data2;
             }
-            if (!String.IsNullOrEmpty(currentWo.Data3))
-            {
-                dynamicTextList[2] = currentWo.Data3;
-            }
-            if (!String.IsNullOrEmpty(currentWo.Data4))
-            {
-                dynamicTextList[3] = currentWo.Data4;
-            }
-            if (!String.IsNullOrEmpty(currentWo.Data5))
-            {
-                dynamicTextList[4] = currentWo.Data5;
-            }
 
             bool isResponseOk = ClientPrinter.SetDynamicText(dynamicTextList);
 
@@ -98,7 +84,6 @@ namespace RnMarkApp.Data
             {
                 throw new CustomException
                 {
-                    BoxId = currentWo.BoxId,
                     SkuName = currentWo.SkuName,
                     Side = currentWo.Side,
                     ErrorMessage = $"SetDynamicText is not OK"
@@ -108,7 +93,12 @@ namespace RnMarkApp.Data
 
         private static void SetSymbols(WorkOrderModel currentWo)
         {
-            List<string> dynamicImagePathList = new List<string> { ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"] };
+            List<string> dynamicImagePathList = new List<string> 
+            { 
+                ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"],
+                ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"],
+                ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"]
+            };
 
             int idx = 0;
             foreach (string s in currentWo.Symbols)
@@ -124,7 +114,6 @@ namespace RnMarkApp.Data
             {
                 throw new CustomException
                 {
-                    BoxId = currentWo.BoxId,
                     SkuName = currentWo.SkuName,
                     Side = currentWo.Side,
                     ErrorMessage = $"SetSymbols response is not OK"

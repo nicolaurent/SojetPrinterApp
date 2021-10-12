@@ -12,12 +12,60 @@ namespace RnMarkApp.Data
 {
     public static class WorkOrderLib
     {
-        // Temporary Class for testing
+        public static WorkOrderModel GetWorkorder(string side, string skuList, string weight, string height)
+        {
+            WorkOrderModel wo = new WorkOrderModel
+            {
+                Side = side
+            };
 
+            // Symbol Side
+            if (side.ToUpper() == "S1")
+            {
+                wo.Symbols = GetWorkorderSymbols(skuList);
+
+                // Insert blank image at index 0 for Side 1
+                wo.Symbols.Insert(0, "0");
+            }
+            // Text side
+            else if (side.ToUpper() == "S3")
+            {
+                wo.Data1 = $"Weight Marking: \"Gross Net {weight} kg\"";
+                wo.Data2 = $"Case Size: \"470 x 365 x {height} mm\"";
+            }
+            // Top side
+            else if (side.ToUpper() == "S4")
+            {
+                wo.Symbols[0] = "astar";
+            }
+
+            return wo;
+        }
+
+        private static List<string> GetWorkorderSymbols(string sSkuList)
+        {
+            List<string> skuList = sSkuList.Split(',').ToList();
+
+            HashSet<string> workorderSymbolsTuple = new HashSet<string>();
+
+            foreach (string s in skuList)
+            {
+                List<string> skuSymbolList = ImageLib.SkuSymbolDict[s];
+
+                foreach (string skuSymbol in skuSymbolList)
+                {
+                    workorderSymbolsTuple.Add(skuSymbol);
+                }
+            }
+
+            return workorderSymbolsTuple.ToList();
+
+        }
+
+        /*
         private static string workorderLibDir = ConfigurationManager.AppSettings["WorkorderLibraryDir"];
         private static List<WorkOrderModel> workorderList;
 
-        /*
         public static void Parse()
         {
             workorderList = new List<WorkOrderModel>();
@@ -37,6 +85,12 @@ namespace RnMarkApp.Data
 
         // */
 
+        //*
+
+
+        // */
+
+        /* OBSOLETE
         public static WorkOrderModel GetWorkorder(string boxId, string skuName, string side)
         {
             foreach (WorkOrderModel wo in workorderList)
@@ -53,6 +107,7 @@ namespace RnMarkApp.Data
 
             return null;
         }
+        
 
         public static void Parse()
         {

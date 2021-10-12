@@ -12,9 +12,32 @@ namespace RnMarkApp.Data
 {
     public static class SkuLib
     {
+        
         private static string skuLibDir = ConfigurationManager.AppSettings["SkuLibraryDir"];
         private static List<SkuModel> skuList;
 
+        public static string GetMessageSlot(string side)
+        {
+            foreach (SkuModel sku in skuList)
+            {
+                if (sku.Side.ToUpper() == side.ToUpper())
+                {
+                    return sku.MessageSlot;
+                }
+            }
+
+            Logger.Error($"SkuLib SKU Side: {side} is not found!");
+
+            throw new CustomException
+            {
+                BoxId = string.Empty,
+                SkuName = string.Empty,
+                Side = string.Empty,
+                ErrorMessage = $"SkuLib SKU Side: {side} is not found!"
+            };
+        }
+
+        /*
         public static string GetMessageSlot(string skuName, string side)
         {
             foreach (SkuModel sku in skuList)
@@ -37,6 +60,7 @@ namespace RnMarkApp.Data
 
             // return null;
         }
+        // */
 
         public static void Parse()
         {
@@ -94,6 +118,41 @@ namespace RnMarkApp.Data
             {
                 switch (item.Replace(" ", string.Empty).ToLower())
                 {
+                    case "side":
+                        result.Side = content[index];
+                        index++;
+                        continue;
+                    case "messageslot":
+                        result.MessageSlot = content[index];
+                        index++;
+                        continue;
+                    default:
+                        // Return null when category is undefined
+                        Logger.Error($"SkuLib ParseContent Category '{item}' is not defined");
+
+                        throw new CustomException
+                        {
+                            BoxId = string.Empty,
+                            SkuName = string.Empty,
+                            Side = string.Empty,
+                            ErrorMessage = $"SkuLib ParseContent Category '{item}' is not defined"
+                        };
+                }
+            }
+
+            return result;
+        }
+
+        /*
+        private static SkuModel ParseContent(string[] content, string[] category)
+        {
+            SkuModel result = new SkuModel();
+            int index = 0;
+
+            foreach (var item in category)
+            {
+                switch (item.Replace(" ", string.Empty).ToLower())
+                {
                     case "boxid":
                         result.BoxId = content[index];
                         index++;
@@ -128,5 +187,6 @@ namespace RnMarkApp.Data
 
             return result;
         }
+        // */
     }
 }

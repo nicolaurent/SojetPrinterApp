@@ -1,4 +1,5 @@
 SymbolNumber,ImageDir
+astar,".\Resource\Symbol\astar.bmp"
 0,".\Resource\Symbol\00.bmp"
 1,".\Resource\Symbol\01.bmp"
 2,".\Resource\Symbol\02.bmp"
@@ -8,5 +9,4 @@ SymbolNumber,ImageDir
 6,".\Resource\Symbol\06.bmp"
 7,".\Resource\Symbol\07.bmp"
 8,".\Resource\Symbol\08.bmp"
-9,".\Resource\Symbol\astar.bmp"
-10,".\Resource\Symbol\astar_mod.bmp"
+

@@ -123,7 +123,7 @@ namespace RnMarkApp.Communication
                 // Read the first batch of the TcpServer response bytes.
                 Console.WriteLine("Reading response from PLC");
                 Logger.Info("Reading response from PLC");
-                Thread.Sleep(150);
+                Thread.Sleep(2000);
                 Int32 bytes = stream.Read(responseByte, 0, responseByte.Length);
                 byte[] trimmedResponseByte = TrimEnd(responseByte);
                 responseData = Encoding.ASCII.GetString(trimmedResponseByte);
@@ -147,15 +147,15 @@ namespace RnMarkApp.Communication
             {
                 try
                 {
-                    byte[] responseByte = SendData(Encoding.Default.GetBytes("GET,REQUEST"));
+                    byte[] responseByte = SendData(Encoding.Default.GetBytes("GET/REQUEST"));
                     ParseResponse(responseByte);
                     Thread.Sleep(1000);
                 }
                 catch(CustomException e)
                 {
-                    Console.WriteLine($"PLC Response CustomException: {e.BoxId},{e.SkuName},{e.Side},{e.ErrorMessage}");
-                    Logger.Error($"PLC Response CustomException: {e.BoxId},{e.SkuName},{e.Side},{e.ErrorMessage}");
-                    SendData(Encoding.Default.GetBytes($"ERROR,{e.BoxId},{e.SkuName},{e.Side},{e.ErrorMessage}"));
+                    Console.WriteLine($"PLC Response CustomException: {e.SkuName},{e.Side},{e.ErrorMessage}");
+                    Logger.Error($"PLC Response CustomException: {e.SkuName},{e.Side},{e.ErrorMessage}");
+                    SendData(Encoding.Default.GetBytes($"ERROR,{e.SkuName},{e.Side},{e.ErrorMessage}"));
                 }
                 catch(Exception e)
                 {
@@ -169,12 +169,14 @@ namespace RnMarkApp.Communication
         private static void ParseResponse(byte[] responseByte)
         {
             string response = Encoding.ASCII.GetString(responseByte);
-            string[] responseSplit = response.Split(',');
-            if (response.ToUpper() == "IDLE")
+            string[] responseSplit = response.Split('/');
+            // if (response.ToUpper() == "WAIT")
+            if (response.ToUpper().Contains("WAIT"))
             {
                 return;
             }
-            else if(responseSplit[0].ToUpper() == "PRINT")
+            //else if(responseSplit[0].ToUpper() == "PRINT")
+            else if (responseSplit[0].ToUpper().Contains("PRINT"))
             {
                 ParseResponsePrint(response);
             }
@@ -194,7 +196,7 @@ namespace RnMarkApp.Communication
 
         private static void ParseResponsePrint(string response)
         {
-            string[] responseSplit = response.Split(',');
+            string[] responseSplit = response.Split('/');
 
             if(responseSplit[1].ToUpper() == "START")
             {
@@ -210,32 +212,34 @@ namespace RnMarkApp.Communication
         private static void ProcessPrinting(string response) 
         {
             SetupLibrary();
-            string[] responseSplit = response.Split(',');
-            string boxId = responseSplit[1];
-            string skuName = responseSplit[2];
-            string side = responseSplit[3];
-            WorkOrderModel currentWo = WorkOrderLib.GetWorkorder(boxId, skuName, side);
-            if (currentWo == null)
-            {
-                Console.WriteLine($"Workorder is not found. SKU: {skuName}, side: {side}");
-                Logger.Error($"Workorder is not found. SKU: {skuName}, side: {side}");
-                SendData(Encoding.Default.GetBytes($"ERROR,{boxId},{skuName},{side},Workorder is not found. BoxId: {boxId}, SKU: {skuName}, side: {side}"));
-                return;
-            }
+            string[] responseSplit = response.Split('/');
+            string side = responseSplit[1];
+            string skuList = responseSplit[2];
+            string weight = responseSplit[3];
+            string height = responseSplit[4];
 
+            
+            WorkOrderModel currentWo = WorkOrderLib.GetWorkorder(side, skuList, weight, height);
             WorkOrderParser.Parser(currentWo);
 
-            byte[] readyByte = Encoding.Default.GetBytes($"READY,{currentWo.BoxId},{currentWo.SkuName},{currentWo.Side},{currentWo.Weight}");
+            byte[] readyByte = Encoding.Default.GetBytes($"READY/{side}/{skuList}/{weight}/{height}");
             byte[] responsePrint = SendData(readyByte);
             ParseResponse(responsePrint);
+
+            /* For Testing
+            byte[] readyByte = Encoding.Default.GetBytes($"READY");
+            byte[] responsePrint = SendData(readyByte);
+            ParseResponse(responsePrint);
+            // */
         }
 
         private static void SetupLibrary()
         {
-            WorkOrderLib.Parse();
+            //WorkOrderLib.Parse();
             SkuLib.Parse();
             ImageLib.ParseSymbol();
-            ImageLib.ParseSymbolPos();
+            //ImageLib.ParseSymbolPos();
+            ImageLib.ParseSkuSymbol();
         }
 
         private static byte[] TrimEnd(byte[] array)

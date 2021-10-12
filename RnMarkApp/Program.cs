@@ -15,22 +15,18 @@ namespace RnMarkApp
     {
         static void Main(string[] args)
         {
-            /*
-            WorkOrderLib.Parse();
+            //////////////////// REAL PROGRAM /////////////////////////
+            //*
+            ClientPrinter.SetupConnection();
 
-            SkuLib.Parse();
-            // string messageSlot = SkuLib.GetMessageSlot("B2", "3");
+            ClientPlc.SetupConnection();
 
-            ImageLib.ParseSymbol();
-
-            ImageLib.ParseSymbolPos();
-
+            ClientPlc.GetRequest();
             // */
 
-            // ClientPrinter.SetupConnection();
 
-            // ClientPlc.SetupConnection();
 
+            ////////////////////// PRINTER COMMAND TEST ////////////////////////////
             // byte[] data = MessageConverter.ProcessImage(ImageLib.SymbolDict["3"], ImageLib.SymbolPosDict["2"].Item1, ImageLib.SymbolPosDict["2"].Item2);
 
             /*
@@ -129,17 +125,8 @@ namespace RnMarkApp
             // */
 
 
-
-
-            /*
-            ClientPrinter.SetupConnection();
-
-            ClientPlc.SetupConnection();
-
-            ClientPlc.GetRequest();
-            // */
-
-
+            /////////////////////// DLL TEST ////////////////////////////////
+            /* 
             // Init SEngine64.dll
             SEngine64Dll.MInitEnv();
 
@@ -201,11 +188,7 @@ namespace RnMarkApp
 
                 // Clear Buffer
                 SEngine64Dll.pClearUpDynamicDataInPrinter(m_hPrinterID);
-            }
-            
-
+                // */
         }
-
-        
     }
 }
