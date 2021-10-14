@@ -166,7 +166,7 @@ namespace RnMarkApp.Communication
             }
         }
 
-        private static void ParseResponse(byte[] responseByte)
+        public static void ParseResponse(byte[] responseByte)
         {
             string response = Encoding.ASCII.GetString(responseByte);
             string[] responseSplit = response.Split('/');

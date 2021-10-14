@@ -114,7 +114,7 @@ namespace RnMarkApp.Data
 
         public static void ParseSkuSymbol()
         {
-            SymbolDict = new Dictionary<string, string>();
+            SkuSymbolDict = new Dictionary<string, List<string>>();
             using (TextFieldParser parser = new TextFieldParser(skuSymbolDir))
             {
                 parser.SetDelimiters(new string[] { "," });

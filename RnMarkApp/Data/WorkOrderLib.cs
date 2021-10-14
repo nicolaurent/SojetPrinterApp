@@ -36,7 +36,7 @@ namespace RnMarkApp.Data
             // Top side
             else if (side.ToUpper() == "S4")
             {
-                wo.Symbols[0] = "astar";
+                wo.Symbols = new List<string> { "astar" };
             }
 
             return wo;

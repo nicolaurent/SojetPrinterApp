@@ -189,6 +189,19 @@ namespace RnMarkApp
                 // Clear Buffer
                 SEngine64Dll.pClearUpDynamicDataInPrinter(m_hPrinterID);
                 // */
+
+            // Printer testing
+            /*
+            string command1 = "PRINT/S1/90000001,90000003,90000025/2050/350";
+            string command2 = "PRINT/S2/90000001,90000003,90000025/2050/350";
+            string command3 = "PRINT/S3/90000001,90000003,90000025/2050/350";
+            string command4 = "PRINT/S4/90000001,90000003,90000025/2050/350";
+            string command5 = "PRINT/S1/90000017/2050/350";
+
+            byte[] bytes = System.Text.Encoding.ASCII.GetBytes(command5);
+
+            ClientPlc.ParseResponse(bytes);
+            // */
         }
     }
 }
