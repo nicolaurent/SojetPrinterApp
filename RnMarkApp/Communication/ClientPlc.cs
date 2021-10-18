@@ -117,7 +117,7 @@ namespace RnMarkApp.Communication
                 Logger.Info("Data sent");
 
                 // String to store the response ASCII representation.
-                byte[] responseByte = new Byte[30];
+                byte[] responseByte = new Byte[500];
                 String responseData = String.Empty;
 
                 // Read the first batch of the TcpServer response bytes.
@@ -209,8 +209,9 @@ namespace RnMarkApp.Communication
             }
         }
 
-        private static void ProcessPrinting(string response) 
+        public static void ProcessPrinting(string response) 
         {
+            //* Real program
             SetupLibrary();
             string[] responseSplit = response.Split('/');
             string side = responseSplit[1];
@@ -225,6 +226,7 @@ namespace RnMarkApp.Communication
             byte[] readyByte = Encoding.Default.GetBytes($"READY/{side}/{skuList}/{weight}/{height}");
             byte[] responsePrint = SendData(readyByte);
             ParseResponse(responsePrint);
+            // */
 
             /* For Testing
             byte[] readyByte = Encoding.Default.GetBytes($"READY");
@@ -233,7 +235,7 @@ namespace RnMarkApp.Communication
             // */
         }
 
-        private static void SetupLibrary()
+        public static void SetupLibrary()
         {
             //WorkOrderLib.Parse();
             SkuLib.Parse();

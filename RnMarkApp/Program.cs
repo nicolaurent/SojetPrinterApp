@@ -15,16 +15,17 @@ namespace RnMarkApp
     {
         static void Main(string[] args)
         {
+
             //////////////////// REAL PROGRAM /////////////////////////
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             //*
+
             ClientPrinter.SetupConnection();
 
             ClientPlc.SetupConnection();
 
             ClientPlc.GetRequest();
             // */
-
-
 
             ////////////////////// PRINTER COMMAND TEST ////////////////////////////
             // byte[] data = MessageConverter.ProcessImage(ImageLib.SymbolDict["3"], ImageLib.SymbolPosDict["2"].Item1, ImageLib.SymbolPosDict["2"].Item2);
@@ -192,16 +193,41 @@ namespace RnMarkApp
 
             // Printer testing
             /*
-            string command1 = "PRINT/S1/90000001,90000003,90000025/2050/350";
-            string command2 = "PRINT/S2/90000001,90000003,90000025/2050/350";
-            string command3 = "PRINT/S3/90000001,90000003,90000025/2050/350";
-            string command4 = "PRINT/S4/90000001,90000003,90000025/2050/350";
-            string command5 = "PRINT/S1/90000017/2050/350";
+            ClientPrinter.SetupConnection();
+            //string command1 = "PRINT/S1/90000001,90000003,90000025/2050/350";
+            //string command2 = "PRINT/S2/90000001,90000003,90000025/2050/350";
+            //string command3 = "PRINT/S3/90000001,90000003,90000025/2050/350";
+            //string command4 = "PRINT/S4/90000001,90000003,90000025/2050/350";
+            //byte[] bytes = System.Text.Encoding.ASCII.GetBytes(command1);
+            //
+            //ClientPlc.ParseResponse(bytes);
 
-            byte[] bytes = System.Text.Encoding.ASCII.GetBytes(command5);
 
-            ClientPlc.ParseResponse(bytes);
+            //*
+            while (true)
+            {
+                Console.WriteLine("Please enter command:\r\n");
+                string command = Console.ReadLine();
+
+                if(command.ToLower() == "exit")
+                {
+                    ClientPrinter.ReleaseConnection();
+                    break;
+                }
+
+                ClientPlc.ProcessPrinting(command);
+                
+            }
+
+           
             // */
+        }
+
+        static void OnProcessExit(object sender, EventArgs e)
+        {
+
+            ClientPrinter.ReleaseConnection();
+            ClientPlc.CloseStream();
         }
     }
 }

@@ -16,7 +16,8 @@ namespace RnMarkApp.Data
         {
             WorkOrderModel wo = new WorkOrderModel
             {
-                Side = side
+                Side = side,
+                Symbols = new List<string>()
             };
 
             // Symbol Side
@@ -36,7 +37,11 @@ namespace RnMarkApp.Data
             // Top side
             else if (side.ToUpper() == "S4")
             {
-                wo.Symbols = new List<string> { "astar" };
+                wo.Symbols = new List<string> { 
+                    "astar_logo", "0", "0", "0", "0", 
+                    "0","0","0","0","0",
+                    "0","0","astar_text_up", "astar_text_down"
+                };
             }
 
             return wo;

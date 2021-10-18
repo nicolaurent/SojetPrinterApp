@@ -46,6 +46,8 @@ namespace RnMarkApp.Data
                     ErrorMessage = $"SetClearMessage response is not OK"
                 };
             }
+
+            Logger.Info($"SetClearMessage OK");
         }
 
         private static void SetMessageSlot(WorkOrderModel currentWo)
@@ -62,7 +64,7 @@ namespace RnMarkApp.Data
                     ErrorMessage = $"SetMessageSlot response is not OK"
                 };
             }
-
+            Logger.Info($"SetMessageSlot {messageSlot} for side {currentWo.Side} OK");
         }
 
         private static void SetDynamicText(WorkOrderModel currentWo)
@@ -89,6 +91,8 @@ namespace RnMarkApp.Data
                     ErrorMessage = $"SetDynamicText is not OK"
                 };
             }
+
+            Logger.Info($"SetDynamicText \"{dynamicTextList[0]}\" and \"{dynamicTextList[1]}\" OK");
         }
 
         private static void SetSymbols(WorkOrderModel currentWo)
@@ -97,7 +101,7 @@ namespace RnMarkApp.Data
             { 
                 ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"],
                 ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"],
-                ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"]
+                ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"], ImageLib.SymbolDict["0"]
             };
 
             int idx = 0;
@@ -119,6 +123,8 @@ namespace RnMarkApp.Data
                     ErrorMessage = $"SetSymbols response is not OK"
                 };
             }
+
+            Logger.Info($"SetSymbols OK: {String.Join(",", dynamicImagePathList.ToArray())}");
         }
 
         // Rn Mark Printer - OBSOLETE

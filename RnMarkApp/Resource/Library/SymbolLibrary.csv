@@ -1,5 +1,7 @@
 SymbolNumber,ImageDir
-astar,".\Resource\Symbol\astar.bmp"
+astar_logo,".\Resource\Symbol\astar40.bmp"
+astar_text_up,".\Resource\Symbol\00.bmp"
+astar_text_down,".\Resource\Symbol\00.bmp"
 0,".\Resource\Symbol\00.bmp"
 1,".\Resource\Symbol\01.bmp"
 2,".\Resource\Symbol\02.bmp"

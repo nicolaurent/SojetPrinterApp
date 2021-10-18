@@ -18,6 +18,7 @@ namespace RnMarkApp.Communication
         // private static int clientPort = Int32.Parse(ConfigurationManager.AppSettings["PrinterPortAddress"]);
 
         private static int m_hPrinterID;
+        private static int m_bPrinting = 0;
 
         public static void SetupConnection()
         {
@@ -27,16 +28,33 @@ namespace RnMarkApp.Communication
             // Connecting to Printer
             string IP = $"IP={clientIpAddress};protocol=0";
             m_hPrinterID = SEngine64Dll.pCreate(IP);
+
+            Logger.Info("Printer connected successfully");
+        }
+
+        public static void ReleaseConnection()
+        {
+            m_hPrinterID = SEngine64Dll.pRelease(m_hPrinterID);
+            Logger.Info("Printer disconnected successfully");
         }
 
         public static bool SendMessageSlot(string messageSlot)
         {
-            int m_bPrinting = 0;
+            m_bPrinting = 0;
             int iErr = SEngine64Dll.pStartExt(m_hPrinterID, messageSlot);
             if (1 == iErr)
             {
                 SEngine64Dll.pIsPrinting(m_hPrinterID, ref m_bPrinting);
-                return false;
+            }
+
+            return true;
+        }
+
+        public static bool StopPrinting()
+        {
+            if (1 == SEngine64Dll.pStop(m_hPrinterID))
+            {
+                m_bPrinting = 0;
             }
 
             return true;
